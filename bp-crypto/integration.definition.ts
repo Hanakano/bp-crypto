@@ -7,7 +7,7 @@ import { actionDefinitions } from 'src/definitions/actions'
 export default new IntegrationDefinition({
 	name: 'crypto',
 	description: 'Exposes actions from the Nodejs standard crypto library',
-	version: '0.0.4',
+	version: '0.0.5',
 	readme: 'hub.md',
 	icon: 'icon.svg',
 	actions: actionDefinitions,
