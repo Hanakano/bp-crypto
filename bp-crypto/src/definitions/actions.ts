@@ -45,7 +45,7 @@ const hashData = {
 	title: 'hash',
 	input: {
 		schema: z.object({
-			data: z.object({}),
+			data: z.string().describe("Stringified data to hash"),
 			algorithm: z.string().default("aes-256").describe("Which OpenSSL algorithm to use when creating the hash"),
 		}),
 	},
@@ -60,7 +60,7 @@ const hmac = {
 	title: 'hmac',
 	input: {
 		schema: z.object({
-			data: z.object({}),
+			data: z.string().describe("Stringified HMAC data"),
 			algorithm: z.string().default("aes-256").describe("Which OpenSSL algorithm to use when creating the hash"),
 			key: z.string().describe("The encryption key"),
 		}),
