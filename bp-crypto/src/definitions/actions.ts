@@ -10,6 +10,7 @@ const AlgorithmTypes = z.enum([
 
 const encrypt = {
 	title: 'encrypt',
+	description: "Encrypts a string using AES-256",
 	input: {
 		schema: z.object({
 			data: z.string().describe("Stringified data to encrypt").title("Data"),
@@ -26,79 +27,128 @@ const encrypt = {
 
 const decrypt = {
 	title: 'decrypt',
+	description: "Decrypts an AES-256 encrypted string",
 	input: {
 		schema: z.object({
 			data: z.string().describe("String data to decrypt").title("Data"),
 			algorithm: AlgorithmTypes.describe("which algorithm to use").default("aes-256-cbc").title("Algorithm"),
-			ivLength: z.number().default(16).describe("How long the IV prefix on data is"),
+			ivLength: z.number().default(16).describe("How long the IV prefix on data is").title("IV Length"),
 			key: z.string().describe("The encryption key").title("Key"),
 		}),
 	},
 	output: {
 		schema: z.object({
-			output: z.string().describe("The decrypted data, ready to be parsed as needed")
+			output: z.string().describe("The decrypted data, ready to be parsed as needed").title("Output")
 		}),
 	},
 }
 
-const hashData = {
-	title: 'hash',
+const decryptFernet = {
+	title: 'decryptFernet',
+	description: "Decrypts an AES-256 encrypted string using Fernet spec",
 	input: {
 		schema: z.object({
-			data: z.string().describe("Stringified data to hash"),
-			algorithm: z.string().default("aes-256").describe("Which OpenSSL algorithm to use when creating the hash"),
+			data: z.string().describe("String data to decrypt").title("Data"),
+			key: z.string().describe("The encryption key").title("Key"),
 		}),
 	},
 	output: {
 		schema: z.object({
-			data: z.string().describe("The computed hash")
+			output: z.string().describe("The decrypted data, ready to be parsed as needed").title("Output")
+		}),
+	},
+}
+const hashData = {
+	title: 'hash',
+	description: "Hashes data using aes-256 or sha-256 algorithms",
+	input: {
+		schema: z.object({
+			data: z.string().describe("Stringified data to hash").title("Data"),
+			algorithm: z.string().default("aes-256").describe("Which OpenSSL algorithm to use when creating the hash").title("Algorithm"),
+		}),
+	},
+	output: {
+		schema: z.object({
+			output: z.string().describe("The computed hash").title("Output")
 		}),
 	},
 }
 
 const hmac = {
 	title: 'hmac',
+	description: "Creates an encrypted HMAC signature",
 	input: {
 		schema: z.object({
-			data: z.string().describe("Stringified HMAC data"),
-			algorithm: z.string().default("aes-256").describe("Which OpenSSL algorithm to use when creating the hash"),
-			key: z.string().describe("The encryption key"),
+			data: z.string().describe("Stringified HMAC data").title("Data"),
+			algorithm: z.string().default("aes-256").describe("Which OpenSSL algorithm to use when creating the hash").title("Algorithm"),
+			key: z.string().describe("The encryption key").title("Key"),
 		}),
 	},
 	output: {
 		schema: z.object({
-			data: z.string().describe("The computed hmac string")
+			output: z.string().describe("The computed hmac string").title("Output")
 		}),
 	},
 }
 
 const verifyHmac = {
 	title: 'verifyHmac',
+	description: "Verifies an HMAC signature against a known cipher",
 	input: {
 		schema: z.object({
-			algorithm: z.string().describe("Hash algorithm to use for HMAC verification (e.g., 'sha256')"),
-			key: z.string().describe("The secret key used to generate the HMAC"),
-			data: z.string().describe("The original data"),
-			expectedHmac: z.string().describe("The expected HMAC value"),
+			algorithm: z.string().describe("Hash algorithm to use for HMAC verification (e.g., 'sha256')").title("Algorithm"),
+			key: z.string().describe("The secret key used to generate the HMAC").title("Key"),
+			data: z.string().describe("The original data").title("Data"),
+			expectedHmac: z.string().describe("The expected HMAC value").title("Expected HMAC"),
 		}),
 	},
 	output: {
 		schema: z.object({
-			valid: z.boolean().describe("Returns true if the computed HMAC matches the expected HMAC")
+			valid: z.boolean().describe("Returns true if the computed HMAC matches the expected HMAC").title("Valid")
 		}),
 	},
 }
 
 const randomUuid = {
 	title: 'randomUuid',
+	description: "Generates a random uuid",
+	input: { schema: z.object({}) },
+	output: {
+		schema: z.object({
+			uuid: z.string().describe("The generated UUID").title("Uuid"),
+		}),
+	},
+}
+const atob = {
+	title: 'atob',
+	description: "Decodes a base64 string",
 	input: {
 		schema: z.object({
-			options: z.object({ disableEntropyCache: z.boolean().optional() }).optional().describe("UUID generation options"),
+			data: z.string().describe("A base64-encoded string").title("Data"),
 		}),
 	},
 	output: {
 		schema: z.object({
-			uuid: z.string().describe("The generated UUID"),
+			output: z.string().describe("The decoded string").title("Output"),
+		}),
+	},
+}
+const btoa = {
+	title: 'btoa',
+	description: "Encodes data into a base64 string",
+	input: {
+		schema: z.object({
+			data: z.union([
+				z.boolean(),
+				z.string(),
+				z.record(z.any()),
+				z.array(z.any()),
+			]).describe("The data to base64 encode").title("Data")
+		}),
+	},
+	output: {
+		schema: z.object({
+			output: z.string().describe("The base64 encoded string").title("Output"),
 		}),
 	},
 }
@@ -106,8 +156,11 @@ const randomUuid = {
 export const actionDefinitions = {
 	encrypt,
 	decrypt,
+	decryptFernet,
 	hashData,
 	hmac,
 	randomUuid,
-	verifyHmac
+	verifyHmac,
+	atob,
+	btoa
 }

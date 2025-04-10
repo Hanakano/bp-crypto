@@ -3,7 +3,7 @@
  */
 import * as bp from '.botpress';
 import { RuntimeError } from '@botpress/client';
-import crypto from "crypto";
+import { v4 } from 'uuid';
 
 export const randomUuid: bp.IntegrationProps['actions']['randomUuid'] = async ({
 	input,
@@ -11,10 +11,8 @@ export const randomUuid: bp.IntegrationProps['actions']['randomUuid'] = async ({
 }) => {
 	logger.forBot().debug('Generating random UUID', { input });
 	try {
-		// Use Node.js crypto.randomUUID with optional entropy cache disabling
-		const uuid = crypto.randomUUID(input?.options);
-
-		return { uuid };
+		// Use uuid with optional entropy cache disabling
+		return { uuid: v4() };
 	} catch (e) {
 		throw new RuntimeError(`Error generating random UUID: ${e}`);
 	}

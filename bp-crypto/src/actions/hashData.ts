@@ -12,17 +12,12 @@ export const hashData: bp.IntegrationProps['actions']['hashData'] = async ({
 	logger.forBot().debug('Hashing data with input', { input });
 	try {
 		const { data, algorithm = 'sha256' } = input;
-
-		// Convert input object to a string for hashing
-		const dataString = JSON.stringify(data);
-
-		// Create hash object
-		const hash = crypto.createHash(algorithm);
-
+		if (!data) {
+			logger.warn('data is a blank or falsy parameter. Returning empty string!');
+			return { output: "" }
+		}
 		// Update hash with data and generate hex digest
-		const hashedData = hash.update(dataString, 'utf8').digest('hex');
-
-		return { data: hashedData };
+		return { output: crypto.createHash(algorithm).update(data, 'utf8').digest('hex') };
 	} catch (e) {
 		throw new RuntimeError(`Error hashing data: ${e}`);
 	}

@@ -25,7 +25,6 @@
 					NODE_ENV = "development";
 					PROJECT_NAME="bp-crypto";
 				shellHook = ''
-				bun install
 				if [ -f .env ]; then
 					export $(grep -v '^#' .env | xargs)
 					echo "✅ Loaded environment variables from .env"

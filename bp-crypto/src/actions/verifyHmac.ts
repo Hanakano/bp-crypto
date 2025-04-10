@@ -12,6 +12,14 @@ export const verifyHmac: bp.IntegrationProps['actions']['verifyHmac'] = async ({
 	logger.forBot().debug('Verifying HMAC with input', { input });
 	try {
 		const { algorithm, key, data, expectedHmac } = input;
+		for (const [name, value] of
+			[['data', data], ['key', key], ['algorithm', algorithm], ['expectedHmac', expectedHmac]]
+		) {
+			if (!value) {
+				logger.warn(`${name} is a blank or falsy parameter. Returning empty string!`);
+				return { valid: false }
+			}
+		}
 
 		// Create HMAC object
 		const hmacInstance = crypto.createHmac(algorithm, key);

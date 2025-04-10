@@ -12,17 +12,18 @@ export const hmac: bp.IntegrationProps['actions']['hmac'] = async ({
 	logger.forBot().debug('Creating HMAC with input', { input });
 	try {
 		const { data, algorithm = 'sha256', key } = input;
-
-		// Convert input object to a string for HMAC
-		const dataString = JSON.stringify(data);
+		if (!data || !key) {
+			logger.warn("data or key is a blank or falsy parameter. Returning empty string!");
+			return { output: "" }
+		}
 
 		// Create HMAC object
 		const hmacInstance = crypto.createHmac(algorithm, key);
 
 		// Update HMAC with data and generate hex digest
-		const hmacData = hmacInstance.update(dataString, 'utf8').digest('hex');
+		const hmacData = hmacInstance.update(data, 'utf8').digest('hex');
 
-		return { data: hmacData };
+		return { output: hmacData };
 	} catch (e) {
 		throw new RuntimeError(`Error creating HMAC: ${e}`);
 	}

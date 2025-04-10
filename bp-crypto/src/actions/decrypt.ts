@@ -7,9 +7,17 @@ import { RuntimeError } from '@botpress/client';
 import crypto from "crypto";
 
 export const decrypt: bp.IntegrationProps['actions']['decrypt'] = async ({ input, logger }) => {
-	logger.forBot().debug('Creating Decipher with input', { input });
+	//logger.forBot().debug('Creating Decipher with input', { input });
 	try {
 		const { algorithm, key, ivLength, data } = input;
+		for (const [name, value] of
+			[['key', key], ['data', data], ['ivLength', ivLength], ['algorithm', algorithm]]
+		) {
+			if (!value) {
+				logger.warn(`${name} is a blank or falsy parameter. Returning empty string!`);
+				return { output: "" }
+			}
+		}
 
 		// First, decrypt the base64 encoded data and key to buffers
 		const encryptedBuffer = Buffer.from(data, "base64")

@@ -14,6 +14,14 @@ export const encrypt: bp.IntegrationProps['actions']['encrypt'] = async ({
 
 	try {
 		const { algorithm, key, data } = input;
+		for (const [name, value] of
+			[['key', key], ['data', data], ['algorithm', algorithm]]
+		) {
+			if (!value) {
+				logger.warn(`${name} is a blank or falsy parameter. Returning empty string!`);
+				return { output: "" }
+			}
+		}
 		// Base64 decode the key and generate an iv
 		const newKey = Buffer.from(key, 'base64');
 		const iv = crypto.randomBytes(16);
