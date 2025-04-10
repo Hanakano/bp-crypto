@@ -8,8 +8,8 @@ import { hashData } from "./hashData"
 import { hmac } from "./hmac"
 import { verifyHmac } from "./verifyHmac"
 import { randomUuid } from "./randomUuid"
-import { atob } from "./atob"
-import { btoa } from "./btoa"
+import { decodeBase64 } from "./decodeBase64"
+import { encodeBase64 } from "./encodeBase64"
 
 export const actionImplementations = {
 	encrypt,
@@ -19,6 +19,6 @@ export const actionImplementations = {
 	hmac,
 	randomUuid,
 	verifyHmac,
-	atob,
-	btoa
+	decodeBase64,
+	encodeBase64
 }

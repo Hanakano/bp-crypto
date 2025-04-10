@@ -1,9 +1,9 @@
 import { jest } from '@jest/globals';
-import { btoa } from '../actions/btoa';
+import { encodeBase64 } from '../actions/encodeBase64';
 import { mockLogger, resetMockLogger } from './mocks/logger';
 import { RuntimeError } from '@botpress/client';
 
-describe('btoa action', () => {
+describe('encodeBase64 action', () => {
 	beforeEach(() => {
 		resetMockLogger();
 	});
@@ -12,12 +12,12 @@ describe('btoa action', () => {
 		const inputObj = { message: 'encode me', value: 123 };
 		const expectedBase64 = Buffer.from(JSON.stringify(inputObj)).toString('base64');
 
-		const result = await btoa({
+		const result = await encodeBase64({
 			input: { data: inputObj },
 			logger: mockLogger as any,
 			client: {} as any, // Add dummy client/ctx if needed by bp types
 			ctx: {} as any,
-			type: "btoa",
+			type: "encodeBase64",
 			metadata: {
 				setCost: () => { return 0 }
 			},
@@ -33,12 +33,12 @@ describe('btoa action', () => {
 		// Note: The action stringifies the input first
 		const expectedBase64 = Buffer.from(JSON.stringify(inputStr)).toString('base64');
 
-		const result = await btoa({
+		const result = await encodeBase64({
 			input: { data: inputStr },
 			logger: mockLogger as any,
 			client: {} as any, // Add dummy client/ctx if needed by bp types
 			ctx: {} as any,
-			type: "btoa",
+			type: "encodeBase64",
 			metadata: {
 				setCost: () => { return 0 }
 			},
@@ -51,12 +51,12 @@ describe('btoa action', () => {
 		const inputArr = [1, "test", true];
 		const expectedBase64 = Buffer.from(JSON.stringify(inputArr)).toString('base64');
 
-		const result = await btoa({
+		const result = await encodeBase64({
 			input: { data: inputArr },
 			logger: mockLogger as any,
 			client: {} as any, // Add dummy client/ctx if needed by bp types
 			ctx: {} as any,
-			type: "btoa",
+			type: "encodeBase64",
 			metadata: {
 				setCost: () => { return 0 }
 			},
@@ -70,5 +70,5 @@ describe('btoa action', () => {
 	// If needed, you could construct such an object:
 	// const circularObj: any = { name: 'circular' };
 	// circularObj.self = circularObj;
-	// await expect(btoa({ input: { data: circularObj }, logger: mockLogger, ... })).rejects.toThrow(RuntimeError);
+	// await expect(encodeBase64({ input: { data: circularObj }, logger: mockLogger, ... })).rejects.toThrow(RuntimeError);
 });

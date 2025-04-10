@@ -1,10 +1,10 @@
-/* src/actions/atob.ts
+/* src/actions/decodeBase64.ts
  * Decodes a Base64-encoded JSON string
  */
 import * as bp from '.botpress';
 import { RuntimeError } from '@botpress/client';
 
-export const atob: bp.IntegrationProps['actions']['atob'] = async ({
+export const decodeBase64: bp.IntegrationProps['actions']['decodeBase64'] = async ({
 	input,
 	logger,
 }) => {

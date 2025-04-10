@@ -1,9 +1,9 @@
 import { jest } from '@jest/globals';
-import { atob } from '../actions/atob';
+import { decodeBase64 } from '../actions/decodeBase64';
 import { mockLogger, resetMockLogger } from './mocks/logger'; // Adjust path if needed
 import { RuntimeError } from '@botpress/client';
 
-describe('atob action', () => {
+describe('decodeBase64 action', () => {
 	beforeEach(() => {
 		resetMockLogger(); // Reset mocks before each test
 	});
@@ -12,12 +12,12 @@ describe('atob action', () => {
 		const inputObj = { message: 'hello world', count: 42 };
 		const base64Data = Buffer.from(JSON.stringify(inputObj)).toString('base64');
 
-		const result = await atob({
+		const result = await decodeBase64({
 			input: { data: base64Data },
 			logger: mockLogger as any,
 			client: {} as any, // Add dummy client/ctx if needed by bp types
 			ctx: {} as any,
-			type: "atob",
+			type: "decodeBase64",
 			metadata: {
 				setCost: () => { return 0 }
 			},
@@ -32,12 +32,12 @@ describe('atob action', () => {
 		const invalidBase64 = 'this is not base64!!!';
 
 		await expect(
-			atob({
+			decodeBase64({
 				input: { data: invalidBase64 },
 				logger: mockLogger as any,
 				client: {} as any,
 				ctx: {} as any,
-				type: "atob",
+				type: "decodeBase64",
 				metadata: {
 					setCost: () => { return 0 }
 				},
@@ -45,12 +45,12 @@ describe('atob action', () => {
 		).rejects.toThrow(RuntimeError);
 
 		await expect(
-			atob({
+			decodeBase64({
 				input: { data: invalidBase64 },
 				logger: mockLogger as any,
 				client: {} as any,
 				ctx: {} as any,
-				type: "atob",
+				type: "decodeBase64",
 				metadata: {
 					setCost: () => { return 0 }
 				},
@@ -63,24 +63,24 @@ describe('atob action', () => {
 		const base64Data = Buffer.from(nonJsonString).toString('base64');
 
 		await expect(
-			atob({
+			decodeBase64({
 				input: { data: base64Data },
 				logger: mockLogger as any,
 				client: {} as any,
 				ctx: {} as any,
-				type: "atob",
+				type: "decodeBase64",
 				metadata: {
 					setCost: () => { return 0 }
 				},
 			})
 		).rejects.toThrow(RuntimeError);
 		await expect(
-			atob({
+			decodeBase64({
 				input: { data: base64Data },
 				logger: mockLogger as any,
 				client: {} as any,
 				ctx: {} as any,
-				type: "atob",
+				type: "decodeBase64",
 				metadata: {
 					setCost: () => { return 0 }
 				},
@@ -92,12 +92,12 @@ describe('atob action', () => {
 		const inputData = ["a", "b", 1];
 		const base64Data = Buffer.from(JSON.stringify(inputData)).toString('base64');
 
-		const result = await atob({
+		const result = await decodeBase64({
 			input: { data: base64Data },
 			logger: mockLogger as any,
 			client: {} as any,
 			ctx: {} as any,
-			type: "atob",
+			type: "decodeBase64",
 			metadata: {
 				setCost: () => { return 0 }
 			},

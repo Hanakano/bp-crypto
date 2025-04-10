@@ -119,8 +119,8 @@ const randomUuid = {
 		}),
 	},
 }
-const atob = {
-	title: 'atob',
+const decodeBase64 = {
+	title: 'decodeBase64',
 	description: "Decodes a base64 string",
 	input: {
 		schema: z.object({
@@ -133,8 +133,8 @@ const atob = {
 		}),
 	},
 }
-const btoa = {
-	title: 'btoa',
+const encodeBase64 = {
+	title: 'encodeBase64',
 	description: "Encodes data into a base64 string",
 	input: {
 		schema: z.object({
@@ -161,6 +161,6 @@ export const actionDefinitions = {
 	hmac,
 	randomUuid,
 	verifyHmac,
-	atob,
-	btoa
+	decodeBase64,
+	encodeBase64
 }

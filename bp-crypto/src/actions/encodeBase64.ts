@@ -1,10 +1,10 @@
-/* src/actions/btoa.ts
+/* src/actions/encodeBase64.ts
  * Base64 Encodes a string
  */
 import * as bp from '.botpress';
 import { RuntimeError } from '@botpress/client';
 
-export const btoa: bp.IntegrationProps['actions']['btoa'] = async ({
+export const encodeBase64: bp.IntegrationProps['actions']['encodeBase64'] = async ({
 	input,
 	logger,
 }) => {
