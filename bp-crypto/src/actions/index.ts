@@ -7,6 +7,7 @@ import { decryptFernet } from "./decryptFernet"
 import { hashData } from "./hashData"
 import { hmac } from "./hmac"
 import { verifyHmac } from "./verifyHmac"
+import { verifyAiPriseHmac } from "./verifyAiPriseHmac"
 import { randomUuid } from "./randomUuid"
 import { decodeBase64 } from "./decodeBase64"
 import { encodeBase64 } from "./encodeBase64"
@@ -20,5 +21,6 @@ export const actionImplementations = {
 	randomUuid,
 	verifyHmac,
 	decodeBase64,
-	encodeBase64
+	encodeBase64,
+	verifyAiPriseHmac
 }

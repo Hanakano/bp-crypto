@@ -153,6 +153,23 @@ const encodeBase64 = {
 	},
 }
 
+const verifyAiPriseHmac = {
+	title: "VerifyAiPriseHMAC",
+	description: "Verifies the HMAC header on incoming AIPrise event callbacks.",
+	input: {
+		schema: z.object({
+			apiPrivateKey: z.string().describe("Your AIPrise private key").title("Private Key"),
+			payload: z.string().describe("The event payload (string or object)").title("Payload"),
+			xHmacSignature: z.string().describe("The incoming event's HMAC header").title("xHmacSignature")
+		})
+	},
+	output: {
+		schema: z.object({
+			valid: z.boolean().describe("Whether or not the callback passes the validation process").title("Valid")
+		})
+	},
+}
+
 export const actionDefinitions = {
 	encrypt,
 	decrypt,
@@ -161,6 +178,7 @@ export const actionDefinitions = {
 	hmac,
 	randomUuid,
 	verifyHmac,
+	verifyAiPriseHmac,
 	decodeBase64,
 	encodeBase64
 }
