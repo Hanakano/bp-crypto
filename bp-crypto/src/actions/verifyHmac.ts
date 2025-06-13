@@ -11,7 +11,7 @@ export const verifyHmac: bp.IntegrationProps['actions']['verifyHmac'] = async ({
 }) => {
 	logger.forBot().debug('Verifying HMAC with input', { input });
 	try {
-		const { algorithm, key, data, expectedHmac } = input;
+		const { algorithm, key, data, expectedHmac, encoding } = input;
 		for (const [name, value] of
 			[['data', data], ['key', key], ['algorithm', algorithm], ['expectedHmac', expectedHmac]]
 		) {
@@ -25,7 +25,7 @@ export const verifyHmac: bp.IntegrationProps['actions']['verifyHmac'] = async ({
 		const hmacInstance = crypto.createHmac(algorithm, key);
 
 		// Compute HMAC of the data
-		const computedHmac = hmacInstance.update(data, 'utf8').digest('hex');
+		const computedHmac = hmacInstance.update(data, inputEncoding).digest(outputEncoding);
 
 		// Compare computed HMAC with expected HMAC
 		const valid = computedHmac === expectedHmac;

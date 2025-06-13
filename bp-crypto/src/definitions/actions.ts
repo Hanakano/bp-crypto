@@ -82,6 +82,7 @@ const hmac = {
 			data: z.string().describe("Stringified HMAC data").title("Data"),
 			algorithm: z.string().default("aes-256").describe("Which OpenSSL algorithm to use when creating the hash").title("Algorithm"),
 			key: z.string().describe("The encryption key").title("Key"),
+			encoding: z.string().default("hex").describe("Text encoding method for the HMAC signature"),
 		}),
 	},
 	output: {
@@ -100,6 +101,8 @@ const verifyHmac = {
 			key: z.string().describe("The secret key used to generate the HMAC").title("Key"),
 			data: z.string().describe("The original data").title("Data"),
 			expectedHmac: z.string().describe("The expected HMAC value").title("Expected HMAC"),
+			inputEncoding: z.string().default("hex").describe("Text encoding method for the incoming HMAC signature"),
+			outputEncoding: z.string().default("utf8").describe("Text encoding method for the expected HMAC signature"),
 		}),
 	},
 	output: {

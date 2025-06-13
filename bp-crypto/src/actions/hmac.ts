@@ -11,7 +11,7 @@ export const hmac: bp.IntegrationProps['actions']['hmac'] = async ({
 }) => {
 	logger.forBot().debug('Creating HMAC with input', { input });
 	try {
-		const { data, algorithm = 'sha256', key } = input;
+		const { data, algorithm = 'sha256', key, encoding } = input;
 		if (!data || !key) {
 			logger.warn("data or key is a blank or falsy parameter. Returning empty string!");
 			return { output: "" }
@@ -21,7 +21,7 @@ export const hmac: bp.IntegrationProps['actions']['hmac'] = async ({
 		const hmacInstance = crypto.createHmac(algorithm, key);
 
 		// Update HMAC with data and generate hex digest
-		const hmacData = hmacInstance.update(data, 'utf8').digest('hex');
+		const hmacData = hmacInstance.update(data, 'utf8').digest(encoding);
 
 		return { output: hmacData };
 	} catch (e) {

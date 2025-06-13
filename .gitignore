@@ -1,3 +1,5 @@
+.env
+.DS_Store
 .direnv/
 node_modules/
 .botpress/
