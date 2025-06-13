@@ -8,7 +8,7 @@ export default new IntegrationDefinition({
 	name: 'crypto',
 	title: 'crypto',
 	description: 'Cryptographic actions like encrypting, decrypting, and hashing from NodeJS libraries',
-	version: '0.0.7',
+	version: '0.1.1',
 	readme: 'hub.md',
 	icon: 'icon.svg',
 	actions: actionDefinitions,
